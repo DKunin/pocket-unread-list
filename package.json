@@ -1,0 +1,25 @@
+{
+  "name": "pocket-unread-list",
+  "version": "0.0.1",
+  "private": false,
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dkunin/pocket-unread-list.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dkunin/pocket-unread-list/issues"
+  },
+  "scripts": {
+    "start": "node ./",
+    "pretty": "prettier ./*.js --single-quote --tab-width 4 --write",
+    "docker-image-build": "docker build ./ -t $(whoami)/pocket-unread-list",
+    "docker-image-start": "docker run -p 5050:5050 -e POCKET_CONSUMER_KEY=$POCKET_CONSUMER_KEY -e POCKET_ACCESS_TOKEN=$POCKET_ACCESS_TOKEN -d $(whoami)/pocket-unread-list"
+  },
+  "homepage": "https://github.com/dkunin/pocket-unread-list",
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.14.1"
+  }
+}
