@@ -23,7 +23,6 @@ function httpsRequest(options) {
     });
 }
 
-
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
@@ -40,12 +39,27 @@ app.get('/api/pocket', function(req, res) {
     }).then(data => {
         const keys = Object.keys(data.list);
         const count = keys.length;
-        const newList = keys.reduce(function(newArray, singleItem) {
-            const { word_count, sort_id, given_title, given_url } = data.list[singleItem];
-            return newArray.concat({ word_count, sort: sort_id, title: given_title, url: given_url });
-        }, []).sort((a,b) => {
-            return a.sort - b.sort;
-        });
+        const newList = keys
+            .reduce(
+                function(newArray, singleItem) {
+                    const {
+                        word_count,
+                        sort_id,
+                        given_title,
+                        given_url
+                    } = data.list[singleItem];
+                    return newArray.concat({
+                        word_count,
+                        sort: sort_id,
+                        title: given_title,
+                        url: given_url
+                    });
+                },
+                []
+            )
+            .sort((a, b) => {
+                return a.sort - b.sort;
+            });
         res.json({ count, list: newList });
     });
 });
