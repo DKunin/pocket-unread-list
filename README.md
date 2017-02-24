@@ -11,10 +11,18 @@
 
 ## Install
 
-Clone this repo, you have to have these variables ready to pass to docker: $POCKET_CONSUMER_KEY, $POCKET_ACCESS_TOKEN either put them in the env, they will be passed on to the docker run function, or modify docker run function in package.json
+You have to have these variables ready to pass to docker: $POCKET_CONSUMER_KEY, $POCKET_ACCESS_TOKEN either put them in the env, they will be passed on to the docker run function, or modify docker run function in package.json
 To get the consumer key - create an application in [Pocker Developer console](https://getpocket.com/developer/), to get access_tocken you can use [Authentificator](http://reader.fxneumann.de/plugins/oneclickpocket/auth.php)
 
 ```console
+    docker pull dkunin/pocket-unread-list
+    docker run -p 5050:5050 -e POCKET_CONSUMER_KEY=$POCKET_CONSUMER_KEY -e POCKET_ACCESS_TOKEN=$POCKET_ACCESS_TOKEN -d dkunin/pocket-unread-list 
+```
+
+Or if you want to modify/build your own image
+
+```console
+    git clone git@github.com:DKunin/pocket-unread-list
     npm run docker-image-build
     npm run docker-image-start
 ```
@@ -23,7 +31,6 @@ To get the consumer key - create an application in [Pocker Developer console](ht
 
 ```console
     curl http://localhost:5050/api/pocket 
-
 ```
 
 ```javascript
@@ -39,7 +46,7 @@ To get the consumer key - create an application in [Pocker Developer console](ht
 
 ## Contribute
 
-PRs accepted.
+PRs are welcome.
 
 ## License
 
