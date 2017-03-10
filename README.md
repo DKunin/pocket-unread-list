@@ -1,5 +1,7 @@
 # Pocket unread list
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/DKunin/pocket-unread-list.svg)](https://greenkeeper.io/)
+
 > Simple service to get list of titles from your unread pocket list
 
 ## Table of Contents
