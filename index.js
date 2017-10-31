@@ -28,31 +28,21 @@ function httpsRequest(options) {
 }
 
 function httpPost(options, data) {
-    return new Promise(function(resolve, reject) {
-        const postData = JSON.stringify(data);
-        console.log(postData);
-        var req = https.request(
-            Object.assign(options, {
-                // headers: {
-                //     'Content-Type': 'application/x-www-form-urlencoded',
-                //     'Content-Length': postData.length
-                // }
-            }),
-            function(response) {
-                var str = '';
-                response.on('data', function(chunk) {
-                    str += chunk;
-                });
+    return new Promise(function(resolve) {
+        var req = https.request(options, function(res) {
+            var chunks = [];
 
-                response.on('end', function() {
-                    resolve(str);
-                });
-            }
-        );
-        req.on('error', function(e) {
-            reject(e);
+            res.on('data', function(chunk) {
+                chunks.push(chunk);
+            });
+
+            res.on('end', function() {
+                var body = Buffer.concat(chunks);
+                resolve(JSON.parse(body));
+            });
         });
-        req.write(postData);
+        console.log(options, data);
+        req.write(JSON.stringify(data));
         req.end();
     });
 }
@@ -96,36 +86,25 @@ app.get('/api/pocket', function(req, res) {
 });
 
 app.get('/api/pocket/add', function(req, res) {
-    // httpPost(
-    //     {
-    //         host: '',
-    //         method: 'POST',
-    //         path: ''
-    //     },
-
-    // ).then(data => {
-    //     console.log(data);
-    //     res.json(data);
-    // });
-    var options = {
-        url:
-            'https://www.skepticink.com/humesapprentice/2017/10/30/stoic-philosophy-motivation',
-        time: Date.now(),
-        consumer_key: POCKET_CONSUMER_KEY,
-        access_token: POCKET_ACCESS_TOKEN
-    };
-    var url = 'https://getpocket.com/v3/add';
-    var opts = {
-        uri: url,
-        headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'X-Accept': 'application/json'
+    httpPost(
+        {
+            method: 'POST',
+            hostname: 'getpocket.com',
+            port: null,
+            path: '/v3/add',
+            headers: {
+                'content-type': 'application/json',
+                'x-accept': 'application/json'
+            }
         },
-        body: JSON.stringify(options)
-    };
-
-    request.post(opts, function(error, response, body) {
-        res.send(body);
+        {
+            url:
+                'https://www.skepticink.com/humesapprentice/2017/10/30/stoic-philosophy-motivation',
+            consumer_key: POCKET_CONSUMER_KEY,
+            access_token: POCKET_ACCESS_TOKEN
+        }
+    ).then(data => {
+        res.json(data);
     });
 });
 
