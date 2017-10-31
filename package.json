@@ -21,6 +21,8 @@
   "keywords": [],
   "license": "MIT",
   "dependencies": {
-    "express": "4.14.1"
+    "express": "4.14.1",
+    "querystring": "0.2.0",
+    "request": "2.83.0"
   }
 }
